@@ -1,0 +1,94 @@
+=================================================================================================================================================================================
+Theory
+==================================================================================================================================================================================
+>>SQL (Structured Query Language)---------------------------------------------------------------------------------------------------------------------------------------------
+
+Used to communicate with relational databases (MySQL, PostgreSQL, Oracle, SQL Server).
+
+>>Divided into categories:----------------------------------------------------------------------------------------------------------------------------------------------------
+
+DDL (Data Definition Language) → CREATE, ALTER, DROP, TRUNCATE
+
+DML (Data Manipulation Language) → INSERT, UPDATE, DELETE
+
+DQL (Data Query Language) → SELECT
+
+DCL (Data Control Language) → GRANT, REVOKE
+
+TCL (Transaction Control Language) → COMMIT, ROLLBACK, SAVEPOINT
+
+>>Data Types-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Numeric: INT, BIGINT, DECIMAL(10,2), FLOAT
+
+String/Text: CHAR, VARCHAR, TEXT
+
+Date/Time: DATE, DATETIME, TIMESTAMP
+
+Boolean: TRUE/FALSE (MySQL treats as TINYINT(1))
+
+>>Constraints------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+PRIMARY KEY → uniquely identifies a record
+
+FOREIGN KEY → maintains referential integrity
+
+UNIQUE → ensures all values are different
+
+NOT NULL → disallows NULL values
+
+CHECK → ensures condition is true
+
+DEFAULT → assigns default value
+
+>>NULL Handling-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+NULL = Unknown value (not zero or empty string).
+
+Use IS NULL or IS NOT NULL.
+================================================================================================================================================================
+Interview-Style Questions
+=================================================================================================================================================================
+Q1. Create a table Project with constraints:
+
+project_id (primary key)
+
+project_name (not null)
+
+budget (default 100000, must be > 0)
+
+dept_id (foreign key referencing Department)
+
+
+CREATE TABLE Project (
+    project_id INT PRIMARY KEY,
+    project_name VARCHAR(100) NOT NULL,
+    budget DECIMAL(12,2) DEFAULT 100000 CHECK(budget > 0),
+    dept_id INT,
+    FOREIGN KEY (dept_id) REFERENCES Department(dept_id)
+);
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Q2. Insert 3 sample projects into the Project table.
+
+INSERT INTO Project (project_id, project_name, budget, dept_id) VALUES
+(1, 'Recruitment Drive', 120000, 101),
+(2, 'Year-End Audit', 150000, 102),
+(3, 'Cloud Migration', 300000, 103);
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Q3. Retrieve all employees who don’t have a department assigned.
+
+SELECT * FROM Employee WHERE dept_id IS NULL;
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Q4. Show employee names and salaries where salary is greater than 50,000.
+
+SELECT name, salary FROM Employee WHERE salary > 50000;
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Q5. What is the difference between DELETE, TRUNCATE, and DROP?
+
+Answer-
+
+DELETE → removes rows, can use WHERE, can rollback.
+
+TRUNCATE → removes all rows (faster, resets auto-increment), cannot rollback in some DBs.
+
+DROP → removes entire table structure and data.
