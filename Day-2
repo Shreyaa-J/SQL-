@@ -1,0 +1,156 @@
+Day 2 – SELECT, WHERE, ORDER BY, DISTINCT
+=================================================================================================================================================================================
+📘 Theory
+=====================================================================================================================================================================
+SELECT Statement
+
+Used to retrieve data from tables.
+
+SELECT column1, column2 FROM table_name;
+SELECT * FROM table_name; -- all columns
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+WHERE Clause (filters rows)
+
+Comparison operators: =, <>, >, <, >=, <=
+
+Logical operators: AND, OR, NOT
+
+Pattern matching: LIKE 'A%', LIKE '%x', LIKE '_a%'
+
+Range: BETWEEN ... AND ...
+
+Membership: IN (..,..)
+
+DISTINCT
+
+Removes duplicate values.
+
+ORDER BY
+
+Sorts results by one/multiple columns.
+
+Default = ASC (ascending). Use DESC for descending.
+
+SELECT * FROM Employee ORDER BY salary DESC;
+
+
+LIMIT / TOP
+
+LIMIT n → MySQL/Postgres
+
+TOP n → SQL Server
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+🗄️ Sample Tables (reuse from Day 1)
+Employee
+emp_id | name    | age | salary   | dept_id | hire_date
+--------------------------------------------------------
+1      | Alice   | 25  | 60000.00 | 101     | 2021-05-12
+2      | Bob     | 30  | 45000.00 | 102     | 2020-03-18
+3      | Charlie | 28  | 75000.00 | 101     | 2019-11-23
+4      | David   | 35  | 50000.00 | NULL    | 2022-01-05
+5      | Eva     | 26  | 25000.00 | 103     | 2023-07-14
+
+Department
+dept_id | dept_name
+-------------------
+101     | HR
+102     | Finance
+103     | IT
+104     | Marketing
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+❓ Day 2 Interview-Style Questions
+Q1. Retrieve all employees whose salary is greater than 50,000.
+
+✅ Solution
+
+SELECT name, salary 
+FROM Employee
+WHERE salary > 50000;
+
+Q2. Find employees whose name starts with A.
+
+✅ Solution
+
+SELECT * 
+FROM Employee
+WHERE name LIKE 'A%';
+
+Q3. List employees between age 25 and 30.
+
+✅ Solution
+
+SELECT * 
+FROM Employee
+WHERE age BETWEEN 25 AND 30;
+
+Q4. Show unique department IDs from the Employee table.
+
+✅ Solution
+
+SELECT DISTINCT dept_id FROM Employee;
+
+Q5. Retrieve top 3 highest-paid employees.
+
+✅ Solution (MySQL/Postgres)
+
+SELECT * 
+FROM Employee
+ORDER BY salary DESC
+LIMIT 3;
+
+
+✅ Solution (SQL Server)
+
+SELECT TOP 3 * 
+FROM Employee
+ORDER BY salary DESC;
+
+Q6. Find employees hired after 2020 and sort them by hire_date (newest first).
+
+✅ Solution
+
+SELECT name, hire_date 
+FROM Employee
+WHERE hire_date > '2020-01-01'
+ORDER BY hire_date DESC;
+
+Q7. Retrieve employees who belong to department 101 or 103.
+
+✅ Solution
+
+SELECT * 
+FROM Employee
+WHERE dept_id IN (101, 103);
+
+Q8. Find the second highest salary (common interview question).
+
+✅ Solution (Subquery)
+
+SELECT MAX(salary) 
+FROM Employee
+WHERE salary < (SELECT MAX(salary) FROM Employee);
+
+
+✅ Solution (LIMIT + OFFSET – MySQL/Postgres)
+
+SELECT salary 
+FROM Employee
+ORDER BY salary DESC
+LIMIT 1 OFFSET 1;
+
+Q9. Show employees whose salary is not equal to 45,000.
+
+✅ Solution
+
+SELECT * 
+FROM Employee
+WHERE salary <> 45000;
+
+Q10. Retrieve employees and sort them by age ascending and then salary descending.
+
+✅ Solution
+
+SELECT * 
+FROM Employee
+ORDER BY age ASC, salary DESC;
